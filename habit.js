@@ -86,18 +86,23 @@ document.addEventListener("DOMContentLoaded", function () {
         tracker.appendChild(weekRow);
     }
 
-    // Habit Prompt when clicking "My New Habit"
+    // Habit Title - Default is "Click to add your habit"
     var habitTitle = document.getElementById("habitTitle");
+    var savedHabit = localStorage.getItem(`habitTitle-${username}`);
+
+    // If no habit is saved, set default text
+    if (!savedHabit) {
+        habitTitle.innerHTML = "Click to add your habit";
+    } else {
+        habitTitle.innerHTML = savedHabit;
+    }
+
+    // Clicking updates the habit
     habitTitle.onclick = function () {
         let habitInput = prompt("What is your habit?", habitTitle.innerHTML);
         habitTitle.innerHTML = habitInput && habitInput.trim().length > 0 ? habitInput : "Click to add your habit";
         localStorage.setItem(`habitTitle-${username}`, habitTitle.innerHTML);
     };
-
-    var savedHabit = localStorage.getItem(`habitTitle-${username}`);
-    if (savedHabit) {
-        habitTitle.innerHTML = savedHabit;
-    }
 
     totalDaysElement.innerHTML = `${completedDays}/${daysInThisMonth}`;
 
